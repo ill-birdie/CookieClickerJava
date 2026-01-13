@@ -1,4 +1,4 @@
 Welcome to Cookie Clicker! Press [ENTER] to advance text.
 You can skip this dialogue by typing "skip" at any time.
 This is a simple game where you try to grow an arbitrary number as big as possible.
-That's really it! You'll be prompted to press [ENTER] to click a cookie.
+That's really it! You'll be prompted to press [ENTER] to click the cookie.
