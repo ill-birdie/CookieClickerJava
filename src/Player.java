@@ -2,7 +2,7 @@ public class Player {
     private int numCookies;
     private int maxCookies;
     private int numRebirths;
-    private final int BASE_REBIRTH_AMT = (int) Math.pow(10, 6);
+    private final long BASE_REBIRTH_AMT = (int) Math.pow(10, 6);
 
     public Player() {
         this.numCookies = 0;
@@ -27,8 +27,13 @@ public class Player {
         this.maxCookies = Math.max(this.numCookies, this.maxCookies);
     }
 
+    public long requiredRebirthAmt() {
+        int multiplier = (int) Math.pow(10, this.numRebirths);
+        return BASE_REBIRTH_AMT * multiplier;
+    }
+
     public boolean canRebirth() {
-        return this.numCookies >= Math.pow(this.numRebirths, this.BASE_REBIRTH_AMT);
+        return this.numCookies >= requiredRebirthAmt();
     }
 
     public void rebirth() {
