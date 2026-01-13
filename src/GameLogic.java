@@ -10,6 +10,6 @@ public class GameLogic {
     }
 
     public void play() {
-        dialogue.displayDialogue("dialogue/intro.txt");
+        dialogue.displayDialogue("src/dialogue/intro.txt");
     }
 }

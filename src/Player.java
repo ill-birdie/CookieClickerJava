@@ -7,6 +7,10 @@ public class Player {
         this.numRebirths = 0;
     }
 
+    public int getNumCookies() {
+        return this.numCookies;
+    }
+
     public void incrementCookies(int cookies) {
         this.numCookies += cookies;
     }
