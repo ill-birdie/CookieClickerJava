@@ -1,9 +1,7 @@
 public class Cookie {
-    private int perClick;
     private boolean golden;
 
     public Cookie() {
-        this.perClick = 1;
         this.golden = false;
     }
 
@@ -11,8 +9,8 @@ public class Cookie {
         this.golden = !this.golden;
     }
 
-    public int click() {
-        int cookieAmt = this.perClick;
+    public int click(Player target) {
+        int cookieAmt = (int) Math.pow(2, target.getNumRebirths());
         if (golden) {
             cookieAmt *= 7;
         }

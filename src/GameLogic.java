@@ -15,8 +15,8 @@ public class GameLogic {
                     player.rebirth();
                     rebirthOutput = "Rebirthed!";
                 } else {
-                    rebirthOutput = "Cannot rebirth: " + player.getNumCookies() + "/"
-                            + player.requiredRebirthAmt() + " cookies required";
+                    rebirthOutput = "Cannot rebirth: " + player.getNumCookies() +
+                            "/" + player.requiredRebirthAmt() + " cookies required";
                 }
                 System.out.println(rebirthOutput);
             }
@@ -44,7 +44,7 @@ public class GameLogic {
                 executeCommand(userInput);
                 lastWasCommand = true;
             } else {
-                player.incrementCookies(cookie.click());
+                player.incrementCookies(cookie.click(player));
                 lastWasCommand = false;
             }
         }
@@ -52,7 +52,6 @@ public class GameLogic {
 
     public void launch() {
         Dialogue.displayAt("src/dialogue/intro.txt");
-        System.out.println(player.requiredRebirthAmt());
         play();
     }
 }
