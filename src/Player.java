@@ -2,7 +2,7 @@ public class Player {
     private int numCookies;
     private int maxCookies;
     private int numRebirths;
-    private final long BASE_REBIRTH_AMT = (int) Math.pow(10, 1);
+    private final long BASE_REBIRTH_AMT = (int) Math.pow(10, 6);
     private UpgradeTree upgrades;
 
     public Player() {

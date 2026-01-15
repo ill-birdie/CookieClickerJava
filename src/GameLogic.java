@@ -8,20 +8,33 @@ public class GameLogic {
     }
 
     public void executeCommand(String command) {
+        System.out.println();
         switch (command.substring(0, 1)) {
+            case "c" -> {
+                System.out.println("""
+                        List of commands:\
+                        
+                        upgrades : displays the upgrade tree\
+                        
+                        rebirth : allows the user to rebirth, resetting cookies for a higher base multiplier\
+                        
+                        quit : quits the simulation\
+                        
+                        """);
+            }
+            case "u" -> {
+                System.out.println("Viewing upgrade tree");
+            }
             case "r" -> {
                 String rebirthOutput;
                 if (player.canRebirth()) {
                     player.rebirth();
-                    rebirthOutput = "Rebirthed!";
+                    rebirthOutput = "Rebirthed!\n";
                 } else {
                     rebirthOutput = "Cannot rebirth: " + player.getNumCookies() +
                             "/" + player.requiredRebirthAmt() + " cookies required";
                 }
                 System.out.println(rebirthOutput);
-            }
-            case "u" -> {
-                System.out.println("Viewing upgrade tree");
             }
             default -> {
                 System.out.println("Unknown command: \"" + command + "\"");
@@ -32,7 +45,7 @@ public class GameLogic {
     public void play() {
         boolean lastWasCommand = false;
         String userInput = "";
-        while (!userInput.equals("quit")) {
+        while (true) {
             String prompt;
             if (!lastWasCommand) {
                 prompt = "Cookies: " + player.getNumCookies() + " | ";
@@ -40,13 +53,13 @@ public class GameLogic {
                 prompt = "Press [ENTER] to continue clicking: ";
             }
             userInput = Dialogue.promptUser(prompt);
+            if (userInput.equals("quit")) {
+                break;
+            }
             if (!userInput.isEmpty()) {
                 executeCommand(userInput);
                 lastWasCommand = true;
-            } else if (userInput.equals("quit")) {
-                break;
-            }
-            else {
+            } else {
                 player.incrementCookies(cookie.click(player));
                 lastWasCommand = false;
             }
@@ -56,5 +69,6 @@ public class GameLogic {
     public void launch() {
         Dialogue.displayAt("src/dialogue/intro.txt");
         play();
+        Dialogue.displayAt("src/dialogue/goodbye.txt");
     }
 }
