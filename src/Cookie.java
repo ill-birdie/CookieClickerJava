@@ -17,8 +17,8 @@ public class Cookie {
         return (int) (Math.random() * 100) + 1 == 100;
     }
 
-    public int click(Player target) {
-        int cookieAmt = (int) Math.pow(2, target.getNumRebirths());
+    public int click() {
+        int cookieAmt = 1;
         double multiplier = 1;
         if (isSpecialClick()) {
             multiplier *= 100;
@@ -30,7 +30,7 @@ public class Cookie {
         }
         this.timesClicked++;
         if (multiplier > 1) {
-            System.out.println("Awesome! Total multiplier: " + multiplier + "x");
+            System.out.println("Awesome! Total multiplier: " + (int) multiplier + "x");
         }
         return (int) (cookieAmt * multiplier);
     }
