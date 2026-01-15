@@ -3,13 +3,11 @@ public class Player {
     private int maxCookies;
     private int numRebirths;
     private final long BASE_REBIRTH_AMT = (int) Math.pow(10, 6);
-    private UpgradeTree upgrades;
 
     public Player() {
         this.numCookies = 0;
         this.maxCookies = this.numCookies;
         this.numRebirths = 0;
-        this.upgrades = new UpgradeTree();
     }
 
     public int getNumCookies() {
