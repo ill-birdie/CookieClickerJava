@@ -43,7 +43,10 @@ public class GameLogic {
             if (!userInput.isEmpty()) {
                 executeCommand(userInput);
                 lastWasCommand = true;
-            } else {
+            } else if (userInput.equals("quit")) {
+                break;
+            }
+            else {
                 player.incrementCookies(cookie.click(player));
                 lastWasCommand = false;
             }
