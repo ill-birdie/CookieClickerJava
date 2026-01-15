@@ -16,16 +16,12 @@ public class Player {
         return this.numCookies;
     }
 
-    public int getNumRebirths() {
-        return this.numRebirths;
+    public int getMaxCookies() {
+        return this.maxCookies;
     }
 
-    public int getMaxDigits() {
-        if (this.maxCookies < 1) {
-            return 1;
-        } else {
-            return (int) (Math.log10(this.maxCookies)) + 1;
-        }
+    public int getNumRebirths() {
+        return this.numRebirths;
     }
 
     public void incrementCookies(int cookies) {

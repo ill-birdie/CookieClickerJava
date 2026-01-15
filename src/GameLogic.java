@@ -14,6 +14,8 @@ public class GameLogic {
                 System.out.println("""
                         List of commands:\
                         
+                        stats : displayers user statistics\
+                        
                         upgrades : displays the upgrade tree\
                         
                         rebirth : allows the user to rebirth, resetting cookies for a higher base multiplier\
@@ -21,6 +23,13 @@ public class GameLogic {
                         quit : quits the simulation\
                         
                         """);
+            }
+            case "s" -> {
+                System.out.println("-- USER STATS --" +
+                        "\nCookies: " + player.getNumCookies() +
+                        "\nHighest cookies: " + player.getMaxCookies() +
+                        "\nNumber of cookie clicks: " + cookie.getTimesClicked() +
+                        "\nRebirths: " + player.getNumRebirths());
             }
             case "u" -> {
                 System.out.println("Viewing upgrade tree");
@@ -44,7 +53,7 @@ public class GameLogic {
 
     public void play() {
         boolean lastWasCommand = false;
-        String userInput = "";
+        String userInput;
         while (true) {
             String prompt;
             if (!lastWasCommand) {
