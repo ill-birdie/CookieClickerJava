@@ -42,11 +42,12 @@ public class GameLogic {
     public String getStats() {
         return  "-- USER STATS --" +
                 "\nBase click value: " + player.getRebirthMulti() +
+                "\nUpgrade multiplier: " + upgrades.getMultiplier() +
+                "\nTotal click value: " + (player.getRebirthMulti() * upgrades.getMultiplier()) +
                 "\nCookies: " + player.getNumCookies() +
                 "\nHighest cookies: " + player.getMaxCookies() +
                 "\nNumber of cookie clicks: " + cookie.getTimesClicked() +
                 "\nNumber of upgrades: " + upgrades.getNumBought() +
-                "\nUpgrade multiplier: " + upgrades.getMultiplier() +
                 "\nRebirths: " + player.getNumRebirths();
 
     }
@@ -59,8 +60,10 @@ public class GameLogic {
             boolean canAfford = this.player.getNumCookies() >= targetUpgrade.getCost();
             if (unbought && canAfford) {
                 upgrades.buyUpgrade(targetUpgrade);
+                int prevCookies = player.getNumCookies();
                 player.incrementCookies(-targetUpgrade.getCost());
-                System.out.println("Bought!");
+                int newCookies = player.getNumCookies();
+                System.out.println("Bought! Cookie balance: " + prevCookies + " -> " + newCookies);
             } else if (!canAfford && unbought) {
                 System.out.println("You don't have enough cookies to buy this upgrade! " +
                         "(" + this.player.getNumCookies() + "/" + targetUpgrade.getCost() + ")");
@@ -81,7 +84,8 @@ public class GameLogic {
 
             case "b" -> {
                 System.out.println(upgrades.getUnbought());
-                String target = promptUser("Which upgrade would you like to buy? (Type full name) ");
+                String target = promptUser("Which upgrade would you like to buy? " +
+                        "(Type full name, leave blank if none) ");
                 purchase(target);
             }
 
@@ -122,7 +126,7 @@ public class GameLogic {
             if (!lastWasCommand) {
                 prompt = "Cookies: " + player.getNumCookies() + " | ";
             } else {
-                prompt = "Press [ENTER] to continue clicking, or type a different command: ";
+                prompt = "Press [ENTER] to continue clicking, or type another command: ";
             }
             userInput = promptUser(prompt);
             if (userInput.equalsIgnoreCase("quit")) {
