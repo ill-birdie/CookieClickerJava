@@ -1,18 +1,21 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class UpgradeList {
+public class Upgrades {
     private final ArrayList<Upgrade> UPGRADES;
     private int multiplier;
 
-    public UpgradeList() {
-        this.UPGRADES = new ArrayList<>();
-        this.UPGRADES.add(new Upgrade("First Steps", "Base", 2, 0));
-        this.UPGRADES.add(new Upgrade("Quadruple Digits!", "Base", 4, (int) Math.pow(10, 3)));
-        this.UPGRADES.add(new Upgrade("Baby steps", "Base", 2, (int) Math.pow(10, 4)));
-        this.UPGRADES.add(new Upgrade("It just keeps growing", "Base", 2, (int) Math.pow(10, 5)));
-        this.UPGRADES.add(new Upgrade("Basically a million", "Base", 2, 999999));
-        this.UPGRADES.add(new Upgrade("Second Life", "Base", 2, (int) Math.pow(10, 6)));
-        this.UPGRADES.add(new Upgrade("Now do it again", "Base", 2, (int) Math.pow(10, 7)));
+    public Upgrades() {
+        this.UPGRADES = new ArrayList<>(Arrays.asList(
+            new Upgrade("First Steps", "Base", 2, 0),
+            new Upgrade("Triple digits", "Base", 3, 100),
+            new Upgrade("Quadruple Digits!", "Base", 4, (int) Math.pow(10, 3)),
+            new Upgrade("Greed sets in", "Base", 2, (int) Math.pow(10, 4)),
+            new Upgrade("It just keeps growing", "Base", 2, (int) Math.pow(10, 5)),
+            new Upgrade("The Long Haul", "Base", 5, 250000),
+            new Upgrade("Second Life", "Base", 2, (int) Math.pow(10, 6)),
+            new Upgrade("Now do it again", "Base", 2, (int) Math.pow(10, 7))
+        ));
         this.multiplier = 1;
     }
 
@@ -32,7 +35,7 @@ public class UpgradeList {
         }
         for (int i = 0; i < this.UPGRADES.size(); i++) {
             Upgrade u = this.UPGRADES.get(i);
-            if (name.equals(u.getName().toLowerCase())) {
+            if (name.equalsIgnoreCase(u.getName())) {
                 return i;
             }
         }
@@ -50,7 +53,7 @@ public class UpgradeList {
     public void updateMultiplier() {
         int newMulti = 1;
         for (Upgrade u : this.UPGRADES) {
-            if (u.isOwned() && u.getType().equals("Base")) {
+            if (u.isOwned() && u.getType().equalsIgnoreCase("Base")) {
                 newMulti *= u.getMultiplier();
             }
         }
