@@ -110,6 +110,13 @@ public class GameLogic {
         System.out.println();
     }
 
+    public void outro() {
+        System.out.println("\n" + getStats() +
+                "\n" +
+                "\nBefore you go, take a look at your stats!");
+        Dialogue.displayAt(this.consoleReader, "src/dialogue/goodbye.txt");
+    }
+
     /**
      * Places the user in the Cookie Clicker terminal state.
      * Each iteration, the user is prompted to press ENTER or type a command.
@@ -143,7 +150,7 @@ public class GameLogic {
                 lastWasCommand = false;
             }
         }
-        Dialogue.displayAt(this.consoleReader, "src/dialogue/goodbye.txt");
+        outro();
     }
 
     public void launch() {
