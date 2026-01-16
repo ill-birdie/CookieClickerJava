@@ -22,23 +22,17 @@ public final class Dialogue {
         return fileText;
     }
 
-    public static String promptUser(String prompt) {
-        Scanner consoleReader = new Scanner(System.in);
-        System.out.print(prompt);
-        return consoleReader.nextLine().strip().toLowerCase();
-    }
-
-    public static void displayAt(String path) {
+    public static void displayAt(Scanner scan, String path) {
         ArrayList<String> text = getFileText(path);
         boolean skipped = false;
         for (String line : text) {
             System.out.print(line);
             if (!skipped) {
-                if (promptUser(" ").equals("skip")) {
+                System.out.print(" ");
+                if (scan.nextLine().strip().equalsIgnoreCase("skip")) {
                     skipped = true;
                 }
-            }
-            else {
+            } else {
                 System.out.println();
             }
         }

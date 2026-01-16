@@ -1,12 +1,26 @@
+import java.util.Scanner;
+
 public class GameLogic {
-    Player player;
-    Cookie cookie;
-    UpgradeList upgrades;
+    private final Scanner consoleReader;
+    private final Player player;
+    private final Cookie cookie;
+    private final Upgrades upgrades;
 
     public GameLogic() {
+        this.consoleReader = new Scanner(System.in);
         this.player = new Player();
         this.cookie = new Cookie();
-        this.upgrades = new UpgradeList();
+        this.upgrades = new Upgrades();
+    }
+
+    /**
+     * Crucial function which acts in the same way as Python 3's "input" built-in.
+     * @param prompt The text to be displayed to the user.
+     * @return The text the user enters into the console.
+     */
+    public String promptUser(String prompt) {
+        System.out.print(prompt);
+        return this.consoleReader.nextLine().strip();
     }
 
     public String getCommands() {
@@ -27,13 +41,13 @@ public class GameLogic {
 
     public String getStats() {
         return  "-- USER STATS --" +
+                "\nBase click value: " + player.getRebirthMulti() +
                 "\nCookies: " + player.getNumCookies() +
                 "\nHighest cookies: " + player.getMaxCookies() +
                 "\nNumber of cookie clicks: " + cookie.getTimesClicked() +
                 "\nNumber of upgrades: " + upgrades.getNumBought() +
                 "\nUpgrade multiplier: " + upgrades.getMultiplier() +
-                "\nRebirths: " + player.getNumRebirths() +
-                "\nRebirth base multiplier: " + player.getRebirthMulti();
+                "\nRebirths: " + player.getNumRebirths();
 
     }
 
@@ -67,7 +81,7 @@ public class GameLogic {
 
             case "b" -> {
                 System.out.println(upgrades.getUnbought());
-                String target = Dialogue.promptUser("Which upgrade would you like to buy? (Type full name) ");
+                String target = promptUser("Which upgrade would you like to buy? (Type full name) ");
                 purchase(target);
             }
 
@@ -92,6 +106,14 @@ public class GameLogic {
         System.out.println();
     }
 
+    /**
+     * Places the user in the Cookie Clicker terminal state.
+     * Each iteration, the user is prompted to press ENTER or type a command.
+     * If lastWasCommand is true, the prompt simply tells the user to continue clicking.
+     * Otherwise, it will display the amount of cookies, which would have changed.
+     * Afterward, if the user types a command, the executeCommand() function is called, and lastWasCommand is set to true.
+     * Otherwise, the function clicks the Cookie object and increments the user's cookie count.
+     */
     public void play() {
         boolean lastWasCommand = false;
         String userInput;
@@ -102,8 +124,8 @@ public class GameLogic {
             } else {
                 prompt = "Press [ENTER] to continue clicking, or type a different command: ";
             }
-            userInput = Dialogue.promptUser(prompt);
-            if (userInput.equals("quit")) {
+            userInput = promptUser(prompt);
+            if (userInput.equalsIgnoreCase("quit")) {
                 break;
             }
             if (!userInput.isEmpty()) {
@@ -117,11 +139,12 @@ public class GameLogic {
                 lastWasCommand = false;
             }
         }
+        Dialogue.displayAt(this.consoleReader, "src/dialogue/goodbye.txt");
     }
 
     public void launch() {
-        Dialogue.displayAt("src/dialogue/intro.txt");
+        Dialogue.displayAt(this.consoleReader, "src/dialogue/intro.txt");
         play();
-        Dialogue.displayAt("src/dialogue/goodbye.txt");
+        this.consoleReader.close();
     }
 }
