@@ -22,6 +22,10 @@ public class Player {
         return this.numRebirths;
     }
 
+    public int getRebirthMulti() {
+        return (int) Math.pow(2, this.numRebirths);
+    }
+
     public void incrementCookies(int cookies) {
         this.numCookies += cookies;
         this.maxCookies = Math.max(this.numCookies, this.maxCookies);
@@ -38,7 +42,6 @@ public class Player {
 
     public void rebirth() {
         this.numCookies = 0;
-        this.maxCookies = this.numCookies;
         this.numRebirths++;
     }
 }

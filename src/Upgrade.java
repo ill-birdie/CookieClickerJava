@@ -36,4 +36,8 @@ public class Upgrade {
     public void buy() {
         this.owned = true;
     }
+
+    public void removeOwnership() {
+        this.owned = false;
+    }
 }

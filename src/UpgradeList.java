@@ -6,13 +6,23 @@ public class UpgradeList {
 
     public UpgradeList() {
         this.UPGRADES = new ArrayList<>();
-        this.UPGRADES.add(new Upgrade("First Steps", "Base", 10, 0));
-        this.UPGRADES.add(new Upgrade("Quadruple Digits!", "Base", 4, 1000));
-        this.UPGRADES.add(new Upgrade("Baby steps", "Base", 2, 10000));
-        this.UPGRADES.add(new Upgrade("It just keeps growing", "Base", 10, 100000));
+        this.UPGRADES.add(new Upgrade("First Steps", "Base", 2, 0));
+        this.UPGRADES.add(new Upgrade("Quadruple Digits!", "Base", 4, (int) Math.pow(10, 3)));
+        this.UPGRADES.add(new Upgrade("Baby steps", "Base", 2, (int) Math.pow(10, 4)));
+        this.UPGRADES.add(new Upgrade("It just keeps growing", "Base", 2, (int) Math.pow(10, 5)));
         this.UPGRADES.add(new Upgrade("Basically a million", "Base", 2, 999999));
-        this.UPGRADES.add(new Upgrade("Second Life", "Base", 2, 1000000));
+        this.UPGRADES.add(new Upgrade("Second Life", "Base", 2, (int) Math.pow(10, 6)));
+        this.UPGRADES.add(new Upgrade("Now do it again", "Base", 2, (int) Math.pow(10, 7)));
         this.multiplier = 1;
+    }
+
+    public void reset() {
+        for (Upgrade u : this.UPGRADES) {
+            if (u.isOwned()) {
+                u.removeOwnership();
+            }
+        }
+        updateMultiplier();
     }
 
     public int getUpgradeIdx(String name) {
@@ -45,6 +55,16 @@ public class UpgradeList {
             }
         }
         this.multiplier = newMulti;
+    }
+
+    public int getNumBought() {
+        int count = 0;
+        for (Upgrade u : this.UPGRADES) {
+            if (u.isOwned()) {
+                count++;
+            }
+        }
+        return count;
     }
 
     public String getUnbought() {
