@@ -15,6 +15,24 @@ public class UpgradeList {
         this.multiplier = 1;
     }
 
+    public int getUpgradeIdx(String name) {
+        int idx = -1;
+        if (name == null || name.isEmpty()) {
+            return idx;
+        }
+        for (int i = 0; i < this.UPGRADES.size(); i++) {
+            Upgrade u = this.UPGRADES.get(i);
+            if (name.equals(u.getName().toLowerCase())) {
+                return i;
+            }
+        }
+        return idx;
+    }
+
+    public Upgrade getUpgrade(int idx) {
+        return this.UPGRADES.get(idx);
+    }
+
     public int getMultiplier() {
         return this.multiplier;
     }
@@ -44,62 +62,12 @@ public class UpgradeList {
         return unbought.toString();
     }
 
-    public boolean upgradeUnbought(String target) {
-        for (Upgrade u : UPGRADES) {
-            if (!u.isOwned() && u.getName().toLowerCase().equals(target)) {
-                return true;
-            }
-        }
-        return false;
+    public boolean upgradeUnbought(Upgrade u) {
+        return !u.isOwned();
     }
 
-    public void buyUpgrade(String target) {
-        for (Upgrade u : this.UPGRADES) {
-            if (u.getName().toLowerCase().equals(target)) {
-                u.buy();
-                break;
-            }
-        }
+    public void buyUpgrade(Upgrade u) {
+        u.buy();
         updateMultiplier();
-    }
-}
-
-class Upgrade {
-    private final String name;
-    private final String type;
-    private final int multiplier;
-    private final int cost;
-    private boolean owned;
-
-    public Upgrade(String name, String type, int multiplier, int cost) {
-        this.name = name;
-        this.type = type;
-        this.multiplier = multiplier;
-        this.cost = cost;
-        this.owned = false;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public int getMultiplier() {
-        return multiplier;
-    }
-
-    public int getCost() {
-        return cost;
-    }
-
-    public boolean isOwned() {
-        return owned;
-    }
-
-    public void buy() {
-        this.owned = true;
     }
 }

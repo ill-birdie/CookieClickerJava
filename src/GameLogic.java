@@ -22,7 +22,6 @@ public class GameLogic {
                 rebirth : allows the user to rebirth, resetting cookies for a higher base multiplier\
                 
                 quit : quits the simulation\
-                
                 """;
     }
 
@@ -34,6 +33,30 @@ public class GameLogic {
                 "\nRebirths: " + player.getNumRebirths();
     }
 
+    public void purchaseProcess() {
+        System.out.println(upgrades.getUnbought());
+        String upgradeName = Dialogue.promptUser("Which upgrade would you like to buy? (Type full name) ");
+
+        int upgradeIdx = upgrades.getUpgradeIdx(upgradeName);
+        if (upgradeIdx != -1) {
+            Upgrade targetUpgrade = upgrades.getUpgrade(upgradeIdx);
+            boolean existsUnbought = upgrades.upgradeUnbought(targetUpgrade);
+            boolean canBuy = this.player.getNumCookies() >= targetUpgrade.getCost();
+            if (existsUnbought && canBuy) {
+                upgrades.buyUpgrade(targetUpgrade);
+                player.incrementCookies(-targetUpgrade.getCost());
+                System.out.println("Bought!");
+            } else if (!canBuy && existsUnbought) {
+                System.out.println("You don't have enough cookies to buy this upgrade! " +
+                        "(" + this.player.getNumCookies() + "/" + targetUpgrade.getCost() + ")");
+            } else {
+                System.out.println("You already have this upgrade: \"" + upgradeName + "\"");
+            }
+        } else {
+            System.out.println("This upgrade does not exist: \"" + upgradeName + "\"");
+        }
+    }
+
     public void executeCommand(String command) {
         System.out.println();
         switch (command.substring(0, 1)) {
@@ -41,17 +64,8 @@ public class GameLogic {
 
             case "s" -> System.out.println(getStats());
 
-            case "b" -> {
-                System.out.println(upgrades.getUnbought());
-                String targetUpgrade = Dialogue.promptUser("Which upgrade would you like to buy? (Strictly typed): ");
-                if (upgrades.upgradeUnbought(targetUpgrade)) {
-                    upgrades.buyUpgrade(targetUpgrade);
-                    System.out.println("Bought!");
-                } else {
-                    System.out.println("Upgrade not found in unbought upgrades: \"" + targetUpgrade + "\"");
-                }
-                System.out.println();
-            }
+            case "b" -> purchaseProcess();
+
             case "u" -> {
                 System.out.println("-- Unbought upgrades: --");
                 System.out.println(upgrades.getUnbought());
@@ -69,6 +83,7 @@ public class GameLogic {
             }
             default -> System.out.println("Unknown command: \"" + command + "\"");
         }
+        System.out.println();
     }
 
     public void play() {
