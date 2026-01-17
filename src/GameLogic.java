@@ -1,26 +1,14 @@
-import java.util.Scanner;
-
 public class GameLogic {
-    private final Scanner consoleReader;
-    private final Player player;
-    private final Cookie cookie;
-    private final Upgrades upgrades;
+    private final Dialogue DIALOGUE;
+    private final Player PLAYER;
+    private final Cookie COOKIE;
+    private final Upgrades UPGRADES;
 
     public GameLogic() {
-        this.consoleReader = new Scanner(System.in);
-        this.player = new Player();
-        this.cookie = new Cookie();
-        this.upgrades = new Upgrades();
-    }
-
-    /**
-     * Crucial function which acts in the same way as Python 3's "input" built-in.
-     * @param prompt The text to be displayed to the user.
-     * @return The text the user enters into the console.
-     */
-    public String promptUser(String prompt) {
-        System.out.print(prompt);
-        return this.consoleReader.nextLine().strip();
+        this.DIALOGUE = new Dialogue();
+        this.PLAYER = new Player();
+        this.COOKIE = new Cookie();
+        this.UPGRADES = new Upgrades();
     }
 
     public String getCommands() {
@@ -41,14 +29,14 @@ public class GameLogic {
 
     public String getStats() {
         return  "-- USER STATS --" +
-                "\nBase click value: " + player.getRebirthMulti() +
-                "\nUpgrade multiplier: " + upgrades.getMultiplier() +
-                "\nTotal click value: " + (player.getRebirthMulti() * upgrades.getMultiplier()) +
-                "\nCookies: " + player.getNumCookies() +
-                "\nHighest cookies: " + player.getMaxCookies() +
-                "\nNumber of cookie clicks: " + cookie.getTimesClicked() +
-                "\nNumber of upgrades: " + upgrades.getNumBought() +
-                "\nRebirths: " + player.getNumRebirths();
+                "\nBase click value: " + PLAYER.getRebirthMulti() +
+                "\nUpgrade multiplier: " + UPGRADES.getMultiplier() +
+                "\nTotal click value: " + (PLAYER.getRebirthMulti() * UPGRADES.getMultiplier()) +
+                "\nCookies: " + PLAYER.getNumCookies() +
+                "\nHighest cookies: " + PLAYER.getMaxCookies() +
+                "\nNumber of cookie clicks: " + COOKIE.getTimesClicked() +
+                "\nNumber of upgrades: " + UPGRADES.getNumBought() +
+                "\nRebirths: " + PLAYER.getNumRebirths();
 
     }
 
@@ -56,35 +44,35 @@ public class GameLogic {
         if (target.isEmpty()) {
             return "Exiting upgrade menu";
         }
-        int upgradeIdx = upgrades.getUpgradeIdx(target);
+        int upgradeIdx = UPGRADES.getUpgradeIdx(target);
         if (upgradeIdx == -1) {
             return "This upgrade does not exist: \"" + target + "\"";
         }
 
         // User wants to buy an upgrade and the upgrade exists
-        Upgrade targetUpgrade = upgrades.getUpgrade(upgradeIdx);
-        boolean unbought = upgrades.upgradeUnbought(targetUpgrade);
-        boolean canAfford = this.player.getNumCookies() >= targetUpgrade.getCost();
+        Upgrade targetUpgrade = UPGRADES.getUpgrade(upgradeIdx);
+        boolean unbought = UPGRADES.upgradeUnbought(targetUpgrade);
+        boolean canAfford = this.PLAYER.getNumCookies() >= targetUpgrade.getCost();
         if (!unbought || !canAfford) {
             if (!unbought) {
                 return "You already have this upgrade: \"" + target + "\"";
             } else {
                 return "You don't have enough cookies to buy this upgrade! " +
-                        "(" + this.player.getNumCookies() + "/" + targetUpgrade.getCost() + ")";
+                        "(" + this.PLAYER.getNumCookies() + "/" + targetUpgrade.getCost() + ")";
             }
         }
 
         // Upgrade is unbought and user can afford to buy it
-        int prevCookies = player.getNumCookies();
+        int prevCookies = PLAYER.getNumCookies();
         purchase(targetUpgrade);
-        int newCookies = player.getNumCookies();
+        int newCookies = PLAYER.getNumCookies();
         return "Bought! Cookie balance: " + prevCookies + " -> " + newCookies +
-                "\nNew upgrade multiplier: " + upgrades.getMultiplier();
+                "\nNew upgrade multiplier: " + UPGRADES.getMultiplier();
     }
 
     public void purchase(Upgrade u) {
-        upgrades.buyUpgrade(u);
-        player.incrementCookies(-u.getCost());
+        UPGRADES.buyUpgrade(u);
+        PLAYER.incrementCookies(-u.getCost());
     }
 
     public void executeCommand(String command) {
@@ -95,27 +83,27 @@ public class GameLogic {
             case "s" -> System.out.println(getStats());
 
             case "b" -> {
-                System.out.println(upgrades.getUnbought());
-                String target = promptUser("Which upgrade would you like to buy? (Type full name, leave blank if none) | > ");
+                System.out.println(UPGRADES.getUnbought());
+                String target = DIALOGUE.input("Which upgrade would you like to buy? (Type full name, leave blank if none) | > ");
                 while (!target.isEmpty()) {
                     System.out.println(validatePurchase(target));
-                    target = promptUser("> ");
+                    target = DIALOGUE.input("> ");
                 }
             }
 
             case "u" -> {
                 System.out.println("-- Unbought upgrades: --");
-                System.out.println(upgrades.getUnbought());
+                System.out.println(UPGRADES.getUnbought());
             }
             case "r" -> {
                 String rebirthOutput;
-                if (player.canRebirth()) {
-                    upgrades.reset();
-                    player.rebirth();
-                    rebirthOutput = "Rebirthed! Current rebirth multiplier: " + player.getRebirthMulti();
+                if (PLAYER.canRebirth()) {
+                    UPGRADES.reset();
+                    PLAYER.rebirth();
+                    rebirthOutput = "Rebirthed! Current rebirth multiplier: " + PLAYER.getRebirthMulti();
                 } else {
-                    rebirthOutput = "Cannot rebirth: " + player.getNumCookies() +
-                            "/" + player.requiredRebirthAmt() + " cookies required";
+                    rebirthOutput = "Cannot rebirth: " + PLAYER.getNumCookies() +
+                            "/" + PLAYER.requiredRebirthAmt() + " cookies required";
                 }
                 System.out.println(rebirthOutput);
             }
@@ -128,7 +116,7 @@ public class GameLogic {
         System.out.println("\n" + getStats() +
                 "\n" +
                 "\nBefore you go, take a look at your stats!");
-        Dialogue.displayAt(this.consoleReader, "src/dialogue/goodbye.txt");
+        DIALOGUE.displayAt("src/dialogue/goodbye.txt");
     }
 
     /**
@@ -145,11 +133,11 @@ public class GameLogic {
         while (true) {
             String prompt;
             if (!lastWasCommand) {
-                prompt = "Cookies: " + player.getNumCookies() + " | ";
+                prompt = "Cookies: " + PLAYER.getNumCookies() + " | ";
             } else {
                 prompt = "Press [ENTER] to continue clicking, or type another command: ";
             }
-            userInput = promptUser(prompt);
+            userInput = DIALOGUE.input(prompt);
             if (userInput.equalsIgnoreCase("quit")) {
                 break;
             }
@@ -157,10 +145,10 @@ public class GameLogic {
                 executeCommand(userInput);
                 lastWasCommand = true;
             } else {
-                int baseClick = cookie.click();
-                int upgradesMulti = upgrades.getMultiplier();
-                int rebirthMulti = player.getRebirthMulti();
-                player.incrementCookies(baseClick * upgradesMulti * rebirthMulti);
+                int baseClick = COOKIE.click();
+                int upgradesMulti = UPGRADES.getMultiplier();
+                int rebirthMulti = PLAYER.getRebirthMulti();
+                PLAYER.incrementCookies(baseClick * upgradesMulti * rebirthMulti);
                 lastWasCommand = false;
             }
         }
@@ -168,8 +156,7 @@ public class GameLogic {
     }
 
     public void launch() {
-        Dialogue.displayAt(this.consoleReader, "src/dialogue/intro.txt");
+        DIALOGUE.displayAt("src/dialogue/intro.txt");
         play();
-        this.consoleReader.close();
     }
 }
