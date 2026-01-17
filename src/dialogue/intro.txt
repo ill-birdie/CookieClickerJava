@@ -2,5 +2,6 @@ Welcome to Cookie Clicker! Press [ENTER] to advance text.
 You can skip this dialogue by typing "skip" at any time.
 This is a simple game where you try to grow an arbitrary number as big as possible.
 You'll be prompted to press [ENTER] to click the cookie.
+Alternatively, hold down the [ENTER] key to rapidly generate cookies!
 Type "cmds" to see a list of commands.
 That's really about it! Have fun.
