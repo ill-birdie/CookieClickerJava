@@ -13,7 +13,7 @@ public class Upgrades {
             new Upgrade("Greed Sets In", "Base", 2, 10000),
             new Upgrade("Your First Drought", "Base", 5, (int) Math.pow(10, 5)),
             new Upgrade("The Real Long Haul", "Base", 2, (int) (2.5 * Math.pow(10, 5))),
-            new Upgrade("Second Life", "Base", 2, (int) Math.pow(10, 6)),
+            new Upgrade("Rebirth First!", "Base", 2, (int) Math.pow(10, 6)),
             new Upgrade("Death Can't Stop Me From Doing It Again", "Base", 2, (int) Math.pow(10, 7))
         ));
         this.multiplier = 1;
