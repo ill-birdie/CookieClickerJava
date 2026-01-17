@@ -14,7 +14,7 @@ public class Cookie {
     }
 
     public boolean isLuckyClick() {
-        return (int) (Math.random() * 100) + 1 == 100;
+        return (int) (Math.random() * 1000) + 1 == 1000;
     }
 
     public int click() {
@@ -25,8 +25,8 @@ public class Cookie {
             System.out.println("Special click! x100 cookies!");
         }
         if (isLuckyClick()) {
-            multiplier *= 50;
-            System.out.println("Lucky click! x50 cookies!");
+            multiplier *= 1000;
+            System.out.println("Lucky click! x1000 cookies!");
         }
         this.timesClicked++;
         if (multiplier > 1) {
